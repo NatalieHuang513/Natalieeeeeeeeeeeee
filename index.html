@@ -1557,14 +1557,30 @@ body[data-theme="zhong"] .hall-tag {
       </p>
     </div>
 
-    <!-- 观众留言框 -->
-    <div class="comment-box">
-      <h3>观众留言区</h3>
-      <textarea class="comment-input" id="commentText" placeholder="写下你对袁隆平、钟扬、林徽因三位时代脊梁的感悟与敬意..."></textarea>
-      <button class="submit-btn" style="background: var(--accent-lin); color: #231b1b;" onclick="postComment()">发表留言</button>
-      <div class="comments-list" id="commentsList">
-        <div class="comment-card"><strong>观展同学：</strong> 禾下乘凉梦，种子达人情，营造古建心。致敬三位将毕生奉献给祖国和人民的时代脊梁！</div>
+   <!-- 观众留言框 -->
+      <div class="comment-box">
+        <h3>观众留言区</h3>
+        <textarea class="comment-input" id="commentText" placeholder="写下你对袁隆平、钟扬、林徽因三位时代脊梁的感悟与敬意..."></textarea>
+        <button class="submit-btn" style="background: var(--accent-lin); color: #231b1b;" onclick="postComment()">发表留言</button>
+        <div class="comments-list" id="commentsList">
+          <div class="comment-card"><strong>观展同学：</strong> 禾下乘凉梦，种子达人情，营造古建心。致敬三位将毕生奉献给祖国和人民的时代脊梁！</div>
+        </div>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
+  </main>
+
+  <script>
+    // 1. 水稻贴纸功能
+    function addRice(boxId) {
+      const container = document.getElementById(`sticker-box-${boxId}`);
+      if (!container) return;
+
+      const sticker = document.createElement('span');
+      sticker.className = 'rice-sticker-item';
+      sticker.innerText = '🌾';
+
+      container.appendChild(sticker);
+    }
+  </script>
+   
+
