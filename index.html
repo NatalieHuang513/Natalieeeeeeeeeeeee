@@ -10,29 +10,305 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500&display=swap');
 
 /* =========================
-   全局颜色
+   全局颜色 + 三大展厅背景
 ========================= */
 
 :root {
-    --bg-yuan: #111d17;
-    --bg-yuan-2: #263b27;
 
-    --ink-yuan: #f3ebd9;
+    /* ===== 袁隆平 · 金黄稻田 ===== */
+
+    --bg-yuan: #101b14;
+    --bg-yuan-2: #263b22;
+
+    --ink-yuan: #f8f0dc;
     --accent-yuan: #f3c800;
     --gold-light: #fff09a;
-    --sub-yuan: #a8b3a5;
+    --sub-yuan: #b4bea9;
 
-    --bg-zhong: #102a24;
-    --bg-zhong-2: #164c4a;
 
-    --bg-lin: #231b1b;
-    --bg-lin-2: #51342d;
+    /* ===== 钟扬 · 雪域高原 ===== */
 
-    --accent-lin: #e0a96d;
+    --bg-zhong: #071923;
+    --bg-zhong-2: #16445a;
+
+    --ink-zhong: #e8f7ff;
+    --accent-zhong: #81d4fa;
+    --blue-light: #c8f0ff;
+    --sub-zhong: #a8c6d3;
+
+
+    /* ===== 林徽因 · 紫罗兰古建 ===== */
+
+    --bg-lin: #211827;
+    --bg-lin-2: #51334f;
+
+    --ink-lin: #f7eaf7;
+    --accent-lin: #d9a7df;
     --rose-gold: #f4c28c;
+    --purple-light: #efd2f4;
+    --sub-lin: #c7b4c8;
+
+
+    /* ===== 全局 ===== */
 
     --line: rgba(255,255,255,0.15);
+
     --paper-card: rgba(255,255,255,0.06);
+
+}
+
+
+/* =====================================================
+   第一展厅 · 袁隆平
+   金黄稻田渐变
+===================================================== */
+
+#yuan {
+
+    background:
+
+        /* 中央金色光晕 */
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(243,200,0,0.20),
+            transparent 42%
+        ),
+
+        /* 左下绿色 */
+        radial-gradient(
+            circle at 10% 85%,
+            rgba(80,120,45,0.20),
+            transparent 40%
+        ),
+
+        /* 主背景 */
+        linear-gradient(
+            135deg,
+            #0d1812 0%,
+            #1d3020 35%,
+            #33451f 65%,
+            #574c18 100%
+        );
+
+    color: var(--ink-yuan);
+
+}
+
+
+/* 袁隆平展厅里的顶部光晕 */
+
+#yuan::before {
+
+    background:
+
+        radial-gradient(
+            circle,
+            rgba(243,200,0,0.18),
+            transparent 70%
+        );
+
+}
+
+
+/* =====================================================
+   第二展厅 · 钟扬
+   雪域高原冰蓝渐变
+===================================================== */
+
+#zhong {
+
+    background:
+
+        /* 冰蓝色高原光 */
+        radial-gradient(
+            circle at 70% 15%,
+            rgba(129,212,250,0.25),
+            transparent 40%
+        ),
+
+        /* 深蓝阴影 */
+        radial-gradient(
+            circle at 15% 80%,
+            rgba(35,95,125,0.25),
+            transparent 45%
+        ),
+
+        /* 主背景 */
+        linear-gradient(
+            135deg,
+            #06151e 0%,
+            #0d2b38 35%,
+            #164c5b 65%,
+            #243b65 100%
+        );
+
+    color: var(--ink-zhong);
+
+}
+
+
+/* 钟扬展厅顶部光晕 */
+
+#zhong::before {
+
+    background:
+
+        radial-gradient(
+            circle,
+            rgba(129,212,250,0.20),
+            transparent 70%
+        );
+
+}
+
+
+/* =====================================================
+   第三展厅 · 林徽因
+   紫罗兰 + 古建暖金渐变
+===================================================== */
+
+#lin {
+
+    background:
+
+        /* 紫色月光 */
+        radial-gradient(
+            circle at 25% 20%,
+            rgba(210,150,220,0.20),
+            transparent 42%
+        ),
+
+        /* 暖金色建筑光 */
+        radial-gradient(
+            circle at 85% 75%,
+            rgba(244,194,140,0.16),
+            transparent 40%
+        ),
+
+        /* 主背景 */
+        linear-gradient(
+            135deg,
+            #1b1420 0%,
+            #302039 35%,
+            #49304a 65%,
+            #51342d 100%
+        );
+
+    color: var(--ink-lin);
+
+}
+
+
+/* 林徽因展厅顶部光晕 */
+
+#lin::before {
+
+    background:
+
+        radial-gradient(
+            circle,
+            rgba(218,167,223,0.20),
+            transparent 70%
+        );
+
+}
+
+
+/* =====================================================
+   展厅之间的过渡
+===================================================== */
+
+#yuan,
+#zhong,
+#lin {
+
+    transition:
+        background 1.2s ease,
+        color 1.2s ease;
+
+}
+
+
+/* =====================================================
+   文字颜色跟随展厅
+===================================================== */
+
+#yuan .hall-tag {
+
+    color: var(--accent-yuan);
+
+}
+
+
+#zhong .hall-tag {
+
+    color: var(--accent-zhong);
+
+}
+
+
+#lin .hall-tag {
+
+    color: var(--accent-lin);
+
+}
+
+
+/* =====================================================
+   展厅标题颜色
+===================================================== */
+
+#yuan .hall-title {
+
+    background:
+
+        linear-gradient(
+            90deg,
+            #fff8df,
+            #f3c800,
+            #fff09a
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+}
+
+
+#zhong .hall-title {
+
+    background:
+
+        linear-gradient(
+            90deg,
+            #e8f7ff,
+            #81d4fa,
+            #c8f0ff
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+}
+
+
+#lin .hall-title {
+
+    background:
+
+        linear-gradient(
+            90deg,
+            #fff0ff,
+            #d9a7df,
+            #f4c28c
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
 }
 
 /* =========================
@@ -821,7 +1097,6 @@ body[data-theme="lin"] {
         沿着先驱者的足迹，
         体会劳动创造社会的宏伟力量。
     </p>
-
 </header>
 
 <main>
@@ -863,7 +1138,7 @@ body[data-theme="lin"] {
         <div class="yuan-photo-wrapper">
 
             <img
-                src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Yuan_Longping.jpg"
+                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Yuan_Longping_at_news_conference_(cropped).png"
                 alt="袁隆平"
                 class="yuan-portrait"
             >
@@ -972,19 +1247,6 @@ body[data-theme="lin"] {
 
     </div>
 
-可以。下面我就**从你刚才最后一个 `</div>` 后面继续写**，不重复你前面的 `DOCTYPE / head / body / 第一展厅前半部分`。
-
- 这一版我同时把你要求的三套渐变主题接进去：
-
- - 袁隆平：**金黄稻田风**
-- 钟扬：**深邃雪山蓝**
-- 林徽因：**典雅紫罗兰**
-
- 图片我也已经查过：袁隆平采用 Wikimedia Commons 的人物照片；钟扬采用复旦大学官网人物页图片；林徽因采用 Wikimedia Commons 的肖像。袁隆平这张照片页面标注为 CC BY 3.0，林徽因所选肖像页面标注为 Public Domain；钟扬图片来自复旦大学官方人物资料页。 维基共享资源+2
-
- **直接接在你现有代码最后一个 `</div>` 后面：**
-
-```
     <!-- =====================================================
          第一展厅继续：互动引导
     ===================================================== -->
@@ -2143,4 +2405,4 @@ body[data-theme="lin"] {
         <p>
             他们的劳动并没有随着时间结束。
             它们正在成为我们理解这个时代、
-            理解创造与责任的另一
+            理解创造与责任的另一途径
