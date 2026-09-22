@@ -1661,3 +1661,27 @@ HTML
   };
 </script>
     </div>
+
+  <script>
+  // 强力版折叠展开函数
+  window.toggleAccordion = function(headerElement) {
+    // 找到当前 item 下的 content 元素
+    var item = headerElement.parentElement;
+    var content = item.querySelector('.accordion-content');
+    var icon = headerElement.querySelector('.accordion-icon');
+
+    if (!content) return;
+
+    // 获取当前 display 状态
+    var currentDisplay = window.getComputedStyle(content).display;
+
+    // 切换显示/隐藏状态
+    if (currentDisplay === 'none') {
+      content.style.setProperty('display', 'block', 'important');
+      if (icon) icon.innerText = '－';
+    } else {
+      content.style.setProperty('display', 'none', 'important');
+      if (icon) icon.innerText = '＋';
+    }
+  };
+</script>
