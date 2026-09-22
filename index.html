@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>时代脊梁线上博物馆 · 劳动·创造·时代</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500&display=swap');
+
+:root {
+  --bg-yuan: #1c261f;
+  --ink-yuan: #f3ebd9;
+  --accent-yuan: #f3c800;
+  --sub-yuan: #a8b3a5;
+  
+  --bg-zhong: #102a24;
+  --ink-zhong: #f0f7f4;
+  --accent-zhong: #4db6ac;
+  --sky-blue: #81d4fa;
+  --grass-green: #4caf50;
+  --sub-zhong: #9fae9f;
+
+  --bg-lin: #231b1b;
+  --ink-lin: #fbf5ef;
+  --accent-lin: #e0a96d;
+  --rose-gold: #f4c28c;
+  --sub-lin: #bdae9e;
+  
+  --line: rgba(255, 255, 255, 0.15);
+  --paper-card: rgba(255, 255, 255, 0.05);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg-yuan);
+  color: var(--ink-yuan);
+  font-family: "Noto Sans SC", sans-serif;
+  overflow-x: hidden;
+  transition: background 1.2s ease, color 1.2s ease;
+}
+
+body[data-theme="zhong"] {
+  background: var(--bg-zhong);
+  color: var(--ink-zhong);
+}
+
+body[data-theme="lin"] {
+  background: var(--bg-lin);
+  color: var(--ink-lin);
+}
+
+::selection {
+  background: var(--accent-yuan);
+  color: #101914;
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent-yuan);
+  z-index: 1000;
+  transition: width 0.1s linear;
+}
+
+.nav {
+  position: fixed;
+  top: 20px; left: 50%;
+  transform: translateX(-50%);
+  width: min(calc(100% - 40px), 1200px);
+  z-index: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: rgba(16, 25, 20, 0.65);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--line);
+  border-radius: 40px;
+}
+
+.brand {
+  font: 600 15px "Noto Serif SC", serif;
+  letter-spacing: 0.15em;
+  color: var(--ink-yuan);
+}
+
+.nav a {
+  color: inherit;
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  opacity: 0.8;
+  margin-left: 20px;
+  transition: opacity 0.3s;
+}
+
+.nav a:hover { opacity: 1; color: var(--accent-yuan); }
+
+.museum-hero {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 120px 20px 60px;
+  border-bottom: 1px solid var(--line);
+}
+
+.museum-title {
+  font: 900 clamp(40px, 7vw, 90px)/1.1 "Noto Serif SC", serif;
+  letter-spacing: 0.05em;
+  margin: 15px 0;
+  background: linear-gradient(135deg, #f3ebd9 30%, #f3c800 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.museum-subtitle {
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  color: var(--sub-yuan);
+  text-transform: uppercase;
+}
+
+.museum-desc {
+  max-width: 600px;
+  margin: 25px auto;
+  font-size: 14px;
+  line-height: 2;
+  color: var(--sub-yuan);
+}
+
+.hall-section {
+  padding: 90px 7vw;
+  position: relative;
+  border-bottom: 1px solid var(--line);
+}
+
+.hall-header {
+  margin-bottom: 60px;
+}
+
+.hall-tag {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--accent-yuan);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 10px;
+}
+
+body[data-theme="lin"] .hall-tag { color: var(--accent-lin); }
+body[data-theme="zhong"] .hall-tag { color: var(--sky-blue); }
+
+.hall-title {
+  font: 700 clamp(32px, 5vw, 64px)/1.2 "Noto Serif SC", serif;
+  margin: 0;
+}
+
+/* 袁隆平展厅样式 */
+.yuan-archive {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  gap: 50px;
+  align-items: center;
+  background: var(--paper-card);
+  padding: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.yuan-portrait {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: 4px;
+  filter: grayscale(20%) contrast(1.05);
+  border: 1px solid var(--line);
+}
+
+.yuan-profile-title {
+  font: 900 clamp(48px, 6vw, 80px)/1 "Noto Serif SC", serif;
+  margin: 0 0 20px 0;
+  color: var(--accent-yuan);
+}
+
+.yuan-profile-desc {
+  font: 400 16px/2 "Noto Serif SC", serif;
+  color: var(--ink-yuan);
+  opacity: 0.9;
+}
+
+/* 时间线 */
+.timeline {
+  position: relative;
+  margin: 60px 0;
+  padding-left: 30px;
+  border-left: 2px dashed rgba(243, 200, 0, 0.4);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timeline-item::before {
+  content: "🌾";
+  position: absolute;
+  left: -42px;
+  top: -2px;
+  font-size: 18px;
+  background: var(--bg-yuan);
+  padding: 2px;
+}
+
+.timeline-date {
+  font: 700 18px "Noto Serif SC", serif;
+  color: var(--accent-yuan);
+  margin-bottom: 8px;
+}
+
+.timeline-content {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--sub-yuan);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 16px 20px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 互动贴纸 Quote */
+.quotes-interactive {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin: 50px 0;
+}
+
+.quote-card {
+  background: var(--paper-card);
+  border: 1px solid var(--line);
+  padding: 30px;
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.quote-card blockquote {
+  font: 500 18px/1.8 "Noto Serif SC", serif;
+  margin: 0 0 20px 0;
+}
+
+.sticker-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px dashed var(--line);
+}
+
+.plant-btn {
+  background: var(--accent-yuan);
+  color: #101914;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.plant-btn:hover { transform: scale(1.05); }
+
+.rice-stickers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 20px;
+}
+
+/* 折叠展开板块 */
+.accordion {
+  margin: 50px 0;
+}
+
+.accordion-item {
+  border: 1px solid var(--line);
+  margin-bottom: 15px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.accordion-header {
+  padding: 22px 30px;
+  font: 600 18px "Noto Serif SC", serif;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s;
+}
+
+.accordion-header:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
+  font-size: 14px;
+  line-height: 2;
+  color: var(--sub-yuan);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.accordion-item.open .accordion-content {
+  max-height: 300px;
+  padding: 25px 30px;
+}
+
+.accordion-icon {
+  transition: transform 0.3s;
+}
+
+.accordion-item.open .accordion-icon {
+  transform: rotate(45deg);
+}
+
+/* 3D 水稻与颁奖词 */
+.three-stage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  margin-top: 60px;
+}
+
+.canvas-container {
+  position: relative;
+  height: 380px;
+  background: radial-gradient(circle, rgba(243, 200, 0, 0.15) 0%, transparent 70%);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.rice-3d-box {
+  width: 180px;
+  height: 180px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rotate3d 12s infinite linear;
+  cursor: grab;
+}
+
+@keyframes rotate3d {
+  0% { transform: rotateY(0deg) rotateX(10deg); }
+  100% { transform: rotateY(360deg) rotateX(10deg); }
+}
+
+.rice-3d-face {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(243, 200, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 60px;
+  background: rgba(243, 200, 0, 0.05);
+  backdrop-filter: blur(4px);
+}
+
+.f1 { transform: translateZ(90px); }
+.f2 { transform: rotateY(90deg) translateZ(90px); }
+.f3 { transform: rotateY(180deg) translateZ(90px); }
+.f4 { transform: rotateY(-90deg) translateZ(90px); }
+
+.floating-bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bubble {
+  position: absolute;
+  background: rgba(20, 30, 24, 0.85);
+  border: 1px solid var(--accent-yuan);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  color: var(--ink-yuan);
+  white-space: nowrap;
+  animation: floatUp 6s infinite ease-in-out;
+}
+
+.b1 { top: 15%; left: 10%; animation-delay: 0s; }
+.b2 { top: 50%; right: 5%; animation-delay: 2s; }
+.b3 { bottom: 15%; left: 20%; animation-delay: 4s; }
+
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.award-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--accent-yuan);
+  padding: 35px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.award-box h3 {
+  font: 700 22px "Noto Serif SC", serif;
+  color: var(--accent-yuan);
+  margin-top: 0;
+}
+
+.award-box p {
+  font-size: 13px;
+  line-height: 2.1;
+  color: var(--ink-yuan);
+}
+
+/* ================= 钟扬展厅【探界厅】 ================= */
+.zhong-banner {
+  text-align: center;
+  padding: 60px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.zhong-banner h1 {
+  font: 900 clamp(40px, 6vw, 75px)/1.2 "Noto Serif SC", serif;
+  color: var(--sky-blue);
+  margin: 10px 0;
+}
+
+.zhong-slogan {
+  font: 500 clamp(16px, 2.5vw, 24px)/1.8 "Noto Serif SC", serif;
+  color: var(--grass-green);
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.curator-badge {
+  display: inline-block;
+  padding: 6px 18px;
+  background: rgba(76, 175, 80, 0.15);
+  border: 1px solid var(--grass-green);
+  color: var(--grass-green);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  border-radius: 20px;
+  margin-top: 15px;
+}
+
+.profile-card {
+  background: var(--paper-card);
+  border: 1px solid var(--line);
+  padding: 40px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+
+.profile-main-text {
+  font-size: 14px;
+  line-height: 2.1;
+  color: var(--ink-zhong);
+  margin-bottom: 30px;
+}
+
+.node-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.node-card {
+  background: rgba(0, 0, 0, 0.25);
+  border-left: 3px solid var(--sky-blue);
+  padding: 20px;
+  border-radius: 0 8px 8px 0;
+}
+
+.node-year {
+  font: 700 18px "Noto Serif SC", serif;
+  color: var(--sky-blue);
+  margin-bottom: 8px;
+}
+
+.node-desc {
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--sub-zhong);
+}
+
+.node-tag {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 10px;
+  padding: 2px 8px;
+  background: rgba(129, 212, 250, 0.15);
+  color: var(--sky-blue);
+  border-radius: 4px;
+}
+
+/* 高光时刻卡片 */
+.highlight-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  margin: 40px 0;
+}
+
+.scene-card {
+  background: var(--paper-card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.scene-card:hover {
+  transform: translateY(-5px);
+}
+
+.scene-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.scene-body {
+  padding: 25px;
+}
+
+.scene-title {
+  font: 700 20px "Noto Serif SC", serif;
+  color: var(--sky-blue);
+  margin: 0 0 15px 0;
+}
+
+.scene-text {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--sub-zhong);
+}
+
+.scene-reason {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(76, 175, 80, 0.1);
+  border-left: 2px solid var(--grass-green);
+  font-size: 11px;
+  color: var(--grass-green);
+  line-height: 1.7;
+}
+
+/* 精神密码互动标签 */
+.spirit-tags {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 40px 0;
+}
+
+.spirit-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  padding: 25px 15px;
+  text-align: center;
+  border-radius: 8px;
+  font: 600 16px "Noto Serif SC", serif;
+  color: var(--ink-zhong);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.spirit-btn:hover, .spirit-btn.active {
+  background: var(--sky-blue);
+  color: #102a24;
+  border-color: var(--sky-blue);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(129, 212, 250, 0.2);
+}
+
+/* 感动箴言列表 */
+.saying-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 40px 0;
+}
+
+.saying-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--line);
+  padding: 20px 25px;
+  border-radius: 6px;
+  font: 400 15px/1.8 "Noto Serif SC", serif;
+  color: var(--ink-zhong);
+  position: relative;
+  padding-left: 45px;
+}
+
+.saying-item::before {
+  content: "“";
+  position: absolute;
+  left: 15px;
+  top: 10px;
+  font-size: 36px;
+  color: var(--grass-green);
+  opacity: 0.5;
+}
+
+/* 策展人的话 & 评论区 */
+.curator-note {
+  background: rgba(76, 175, 80, 0.08);
+  border: 1px solid var(--grass-green);
+  padding: 35px;
+  border-radius: 8px;
+  font: 400 16px/2 "Noto Serif SC", serif;
+  color: var(--ink-zhong);
+  margin: 50px 0;
+}
+
+.comment-box {
+  background: var(--paper-card);
+  border: 1px solid var(--line);
+  padding: 35px;
+  border-radius: 8px;
+  margin-top: 60px;
+}
+
+.comment-box h3 {
+  font: 700 20px "Noto Serif SC", serif;
+  margin-top: 0;
+}
+
+.comment-input {
+  width: 100%;
+  height: 100px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: #fff;
+  padding: 15px;
+  font-family: inherit;
+  resize: none;
+  margin-bottom: 15px;
+}
+
+.comment-input:focus {
+  outline: none;
+  border-color: var(--sky-blue);
+}
+
+.submit-btn {
+  background: var(--sky-blue);
+  color: #102a24;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover { background: #4fc3f7; }
+
+.comments-list {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comment-card {
+  background: rgba(0, 0, 0, 0.15);
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--sub-zhong);
+}
+
+/* ================= 第三展厅：林徽因【营造厅】 ================= */
+.lin-banner {
+  text-align: center;
+  padding: 60px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.lin-banner h1 {
+  font: 900 clamp(40px, 6vw, 75px)/1.2 "Noto Serif SC", serif;
+  color: var(--accent-lin);
+  margin: 10px 0;
+}
+
+.lin-slogan {
+  font: 500 clamp(16px, 2.5vw, 24px)/1.8 "Noto Serif SC", serif;
+  color: var(--rose-gold);
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.lin-node-card {
+  background: rgba(0, 0, 0, 0.25);
+  border-left: 3px solid var(--accent-lin);
+  padding: 20px;
+  border-radius: 0 8px 8px 0;
+}
+
+.lin-node-year {
+  font: 700 18px "Noto Serif SC", serif;
+  color: var(--accent-lin);
+  margin-bottom: 8px;
+}
+
+.lin-node-tag {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 10px;
+  padding: 2px 8px;
+  background: rgba(224, 169, 109, 0.15);
+  color: var(--accent-lin);
+  border-radius: 4px;
+}
+
+.lin-scene-title {
+  font: 700 20px "Noto Serif SC", serif;
+  color: var(--accent-lin);
+  margin: 0 0 15px 0;
+}
+
+.lin-scene-reason {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(224, 169, 109, 0.1);
+  border-left: 2px solid var(--accent-lin);
+  font-size: 11px;
+  color: var(--rose-gold);
+  line-height: 1.7;
+}
+
+.lin-spirit-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  padding: 25px 15px;
+  text-align: center;
+  border-radius: 8px;
+  font: 600 16px "Noto Serif SC", serif;
+  color: var(--ink-lin);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.lin-spirit-btn:hover, .lin-spirit-btn.active {
+  background: var(--accent-lin);
+  color: #231b1b;
+  border-color: var(--accent-lin);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(224, 169, 109, 0.2);
+}
+
+.lin-saying-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--line);
+  padding: 20px 25px;
+  border-radius: 6px;
+  font: 400 15px/1.8 "Noto Serif SC", serif;
+  color: var(--ink-lin);
+  position: relative;
+  padding-left: 45px;
+}
+
+.lin-saying-item::before {
+  content: "“";
+  position: absolute;
+  left: 15px;
+  top: 10px;
+  font-size: 36px;
+  color: var(--accent-lin);
+  opacity: 0.5;
+}
+
+.lin-curator-note {
+  background: rgba(224, 169, 109, 0.08);
+  border: 1px solid var(--accent-lin);
+  padding: 35px;
+  border-radius: 8px;
+  font: 400 16px/2 "Noto Serif SC", serif;
+  color: var(--ink-lin);
+  margin: 50px 0;
+}
+
+@media(max-width: 768px) {
+  .yuan-archive, .three-stage { grid-template-columns: 1fr; }
+  .hall-section { padding: 60px 20px; }
+  .nav { width: calc(100% - 20px); }
+  .nav a { margin-left: 10px; font-size: 10px; }
+}
+</style>
+</head>
+<body data-theme="yuan">
+
+<div class="grain"></div>
+<div class="progress" id="progressBar"></div>
+
+<nav class="nav">
+  <div class="brand">时代脊梁线上博物馆</div>
+  <div>
+    <a href="#yuan">第一展厅 · 袁隆平</a>
+    <a href="#zhong">第二展厅 · 钟扬</a>
+    <a href="#lin">第三展厅 · 林徽因</a>
+  </div>
+</nav>
+
+<!-- 博物馆主入口 Header -->
+<header class="museum-hero">
+  <div class="museum-subtitle">高中语文第二单元 · 劳动与创造</div>
+  <h1 class="museum-title">时代脊梁</h1>
+  <p class="museum-desc">从一粒种子到千倾稻浪，从雪域高原到万颗种质，从梁木古建到国徽华章。沿着先驱者的足迹，体会劳动创造社会的宏伟力量。</p>
+</header>
+
+<main>
+  <!-- ==================== 第一展厅：袁隆平 ==================== -->
+  <section class="hall-section" id="yuan" data-theme="yuan">
+    <div class="hall-header">
+      <span class="hall-tag">第一展厅 / 科学与农业</span>
+      <h2 class="hall-title">袁隆平：禾下乘凉，苍生无饥</h2>
+    </div>
+
+    <!-- 板块一：人物档案 -->
+    <div class="yuan-archive">
+      <img src="image_agent_tag_8463034901694906557" alt="袁隆平" class="yuan-portrait">
+      <div>
+        <h3 class="yuan-profile-title">袁隆平</h3>
+        <p class="yuan-profile-desc">
+          杂交水稻之父，农学家。他是杂交水稻研究的先驱，世界上第一个将水稻的杂交优势成功应用于生产的科学家。
+        </p>
+      </div>
+    </div>
+
+    <!-- 板块二：时间线 -->
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">1964年7月5日</div>
+        <div class="timeline-content">袁隆平找到第一株天然水稻雄性不育株，是杂交水稻研究最关键的一步。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">1967年7月</div>
+        <div class="timeline-content">袁隆平发现水稻存在杂种优势，自然界存在天然杂交水稻。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">1976 - 1999年</div>
+        <div class="timeline-content">三系法每年增产的稻谷可以养活6000万人。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">1997年</div>
+        <div class="timeline-content">袁隆平正式提出超级杂交稻的育种技术路线，实现超高产水稻株型。</div>
+      </div>
+    </div>
+
+    <!-- 板块三：Quote 互动贴纸 -->
+    <div class="quotes-interactive">
+      <div class="quote-card">
+        <blockquote>“他屏气凝神地伸出双手，欣喜地抚摸着那可爱的稻穗，激动得几乎要喊出声来！”</blockquote>
+        <div class="sticker-area">
+          <button class="plant-btn" onclick="addRice(1)">种下水稻 🌾</button>
+          <div class="rice-stickers" id="sticker-box-1"></div>
+        </div>
+      </div>
+      <div class="quote-card">
+        <blockquote>“他头顶烈日脚踩淤泥弯腰驼背地去寻找这种天然雄性不孕株。”</blockquote>
+        <div class="sticker-area">
+          <button class="plant-btn" onclick="addRice(2)">种下水稻 🌾</button>
+          <div class="rice-stickers" id="sticker-box-2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 板块四：折叠展开 -->
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>1. 实践出真知，稻浪载初心</span>
+          <span class="accordion-icon">＋</span>
+        </div>
+        <div class="accordion-content">
+          袁隆平的实践让他发现了真理：只要探索出其中规律，就一定能培育出人工杂交水稻，也就一定能把这种优势应用到生产上，从而大幅度提高水稻的产量。
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>2. 矢志不退却，立足华夏研稻</span>
+          <span class="accordion-icon">＋</span>
+        </div>
+        <div class="accordion-content">
+          袁隆平不打算退却，他很清楚他拥有的有利条件是其他国家科学家少有的：进行这项研究，中国有中国有利的条件，中国是古老的农业国...
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>3. 怀苍生之情，守稻田之愿</span>
+          <span class="accordion-icon">＋</span>
+        </div>
+        <div class="accordion-content">
+          他对中国亿万农民怀有深厚的感情，在国家杂交水稻工程技术研究中心的稻田中，他一边甩去手上的泥巴一边对我说，农民不富裕谈不到现代化，单产上不去农民就富不起来。
+        </div>
+      </div>
+    </div>
+
+    <!-- 板块五：3D 水稻与颁奖词 -->
+    <div class="three-stage">
+      <div class="canvas-container">
+        <div class="rice-3d-box">
+          <div class="rice-3d-face f1">🌾</div>
+          <div class="rice-3d-face f2">🌾</div>
+          <div class="rice-3d-face f3">🌾</div>
+          <div class="rice-3d-face f4">🌾</div>
+        </div>
+        <div class="floating-bubbles">
+          <div class="bubble b1">“我有两个梦，一个是禾下乘凉梦...”</div>
+          <div class="bubble b2">“我毕生的追求就是让所有人远离饥饿”</div>
+          <div class="bubble b3">“人就像一粒种子，要做一粒好的种子”</div>
+        </div>
+      </div>
+
+      <div class="award-box">
+        <h3>感动中国 · 颁奖词</h3>
+        <p>
+          袁隆平怀揣禾下乘凉梦，一生步履不停，辗转于片片稻田之间。他将毕生心血倾注于杂交水稻研究。从发现天然雄性不育株，到攻克三系法难题，数十年躬耕田野，日夜求索，终让亿万人民远离饥饿。他跨越半生的这份坚守，铸就了我国杂交水稻技术的辉煌成就。他以田间为实验室，在泥土间不断突破，生动诠释了勇于创新、艰苦奋斗的崇高精神，是当之无愧的“杂交水稻之父”。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 第二展厅：钟扬【探界厅】 ==================== -->
+  <section class="hall-section" id="zhong" data-theme="zhong">
+    <div class="zhong-banner">
+      <span class="hall-tag">时代脊梁线上博物馆 · 第二展厅</span>
+      <h1>探界厅 · 钟扬</h1>
+      <div class="zhong-slogan">
+        “躬身雪域，毕生攀取云间种；心系苍生，一粒胚芽济未来。”
+      </div>
+      <div class="curator-badge">策展人：刘懿彤</div>
+    </div>
+
+    <!-- 板块一：人物档案 -->
+    <div style="margin-top: 50px;">
+      <h3 style="font: 700 24px 'Noto Serif SC', serif; color: var(--sky-blue); margin-bottom: 20px;">板块一 · 人物档案</h3>
+      <div class="profile-card">
+        <p class="profile-main-text">
+          <strong>钟扬（1964—2017）</strong>，湖南邵阳人，复旦大学党委委员、研究生院院长、生命科学学院教授、博士生导师，中组部第六、七、八批援藏干部，教育部“长江学者”特聘教授、国家杰出青年科学基金获得者。他长期致力于生物多样性研究与种质资源收集，2017年9月25日在赴内蒙古讲学途中遭遇车祸因公殉职，年仅53岁；被追授“时代楷模”“全国优秀共产党员”，当选“感动中国2018年度人物”。
+        </p>
+
+        <div class="node-grid">
+          <div class="node-card">
+            <div class="node-year">1978 年</div>
+            <div class="node-desc">15岁考入中科大少年班—— 瞒着父亲考入中国科学技术大学无线电专业，后自学转向植物学，1984年进入中科院武汉植物所，33岁即任副所长。</div>
+            <span class="node-tag">课文第一部分 “‘英雄’少年”</span>
+          </div>
+
+          <div class="node-card">
+            <div class="node-year">2000 年</div>
+            <div class="node-desc">放弃武汉副所长职位，赴复旦当普通教授—— 住进没有煤气、热水器的毛坯房，洗了半年冷水澡，一住十几年。</div>
+            <span class="node-tag">课文第二部分 “种子达人”</span>
+          </div>
+
+          <div class="node-card">
+            <div class="node-year">2001—2009 年</div>
+            <div class="node-desc">扎根西藏采集种子—— 到复旦第二年即主动进藏，2009年正式成为中组部援藏干部；十余年间收集上千种植物的4000万颗种子，约占西藏特有植物的1/5；在珠峰北坡6000多米处采到世界海拔最高的种子植物“鼠曲雪兔子”。</div>
+            <span class="node-tag">课文第二部分 “种子达人”</span>
+          </div>
+
+          <div class="node-card">
+            <div class="node-year">2015—2017 年</div>
+            <div class="node-desc">脑出血后第三次申请援藏，因公殉职—— 2015年突发脑出血，他把医嘱当作“工作倒计时的闹钟”，病后反而更拼命，第三次递交援藏申请，成为第八批援藏干部；2017年9月25日倒在出差途中。</div>
+            <span class="node-tag">课文第五部分 “生命延续”</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 板块二：高光时刻 -->
+    <div>
+      <h3 style="font: 700 24px 'Noto Serif SC', serif; color: var(--sky-blue); margin-bottom: 20px;">板块二 · 高光时刻</h3>
+      <div class="highlight-container">
+        <div class="scene-card">
+          <img src="image_agent_tag_8463034901694907796" alt="钟扬考察" class="scene-img">
+          <div class="scene-body">
+            <h4 class="scene-title">场景一：珠峰北坡6000米采集“鼠曲雪兔子”</h4>
+            <p class="scene-text">
+              从海拔5200米的珠峰大本营向更高处挺进时，钟扬严重高原反应、头痛欲裂、呼吸急促，众人劝他留守帐篷，他说“我最清楚植物的情况，我不去的话，你们更难找。你们能爬，我也能爬”，最终带学生在6000多米处采到世界海拔最高的种子植物，把中国植物学家的采样最高点写在了那里。
+            </p>
+            <div class="scene-reason">
+              <strong>高光理由：</strong>这是“探界”二字最具象的注脚 —— 把个人身体的极限，焊进国家种质资源的空白。
+            </div>
+          </div>
+        </div>
+
+        <div class="scene-card">
+          <div style="background: rgba(129,212,250,0.1); height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sky-blue); font-family: serif; font-size: 20px; border-bottom: 1px solid var(--line);">
+            🗓️ 2017.06.24 日程表
+          </div>
+          <div class="scene-body">
+            <h4 class="scene-title">场景二：2017年6月24日的日程表</h4>
+            <p class="scene-text">
+              当天他凌晨4点半便从拉萨出发赶赴墨脱野外考察，而前一晚凌晨2点才睡：白天参加博士答辩、处理学科建设，夜里评阅基金申请书、回邮件。脑出血之后，他用近乎自虐的密度“抢时间”。
+            </p>
+            <div class="scene-reason">
+              <strong>高光理由：</strong>一张普通日程表，胜过千言豪言，是他对自己《生命的高度》一文最诚实的回答。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 板块三：精神密码 -->
+    <div style="margin-top: 50px;">
+      <h3 style="font: 700 24px 'Noto Serif SC', serif; color: var(--sky-blue); margin-bottom: 20px;">板块三 · 精神密码</h3>
+      <div class="spirit-tags">
+        <div class="spirit-btn" onclick="activateSpirit(this)">敢做先锋，勇攀险域。</div>
+        <div class="spirit-btn" onclick="activateSpirit(this)">深耕种质，播种未来。</div>
+        <div class="spirit-btn" onclick="activateSpirit(this)">勇担使命，甘当基石。</div>
+        <div class="spirit-btn" onclick="activateSpirit(this)">胸怀家国，一片赤诚。</div>
+      </div>
+    </div>
+
+    <!-- 板块四：感动箴言 -->
+    <div style="margin-top: 50px;">
+      <h3 style="font: 700 24px 'Noto Serif SC', serif; color: var(--sky-blue); margin-bottom: 20px;">板块四 · 感动箴言</h3>
+      <div class="saying-list">
+        <div class="saying-item">“一个基因能够拯救一个国家，一粒种子能够造福万千苍生。”</div>
+        <div class="saying-item">“你们能爬，我也能爬。”</div>
+        <div class="saying-item">“培养学生就像我们采集种子，每一颗种子都很宝贵，你不能因为他外表看上去不好看就不要，说不定这种子以后能长得很好。”</div>
+        <div class="saying-item">“先锋者为成功者奠定了基础，它们在生命的高度上应该是一致的。”（《生命的高度》）</div>
+        <div class="saying-item">“任何生命都有结束的一天，但我毫不畏惧，因为我的学生会将科学探索之路延续……”</div>
+      </div>
+
+      <div class="award-box" style="border-color: var(--sky-blue); max-width: 800px; margin: 40px auto;">
+        <h3 style="color: var(--sky-blue); text-align: center;">感动中国 2018 年度人物 · 颁奖词</h3>
+        <p style="font-size: 14px; line-height: 2.1;">
+          他是15岁考入少年班的“英雄”少年，却把后半生交给世界屋脊。十六年跋涉，四千余万颗种子存入玻璃罐，替未来存下生命的底牌。高原反应时他说“你们能爬，我也能爬”，中国植物学家的采样最高点因此写在海拔六千米处。脑出血的警报被他当作倒计时的闹钟，磨白的牛仔裤与塞满小纸条的双肩包，定格成2017年秋天永不落幕的行程表。他以身化作人间种，缄藏岁月，静待山河春华。
+        </p>
+      </div>
+    </div>
+
+    <div class="curator-note">
+      <h3 style="font: 700 20px 'Noto Serif SC', serif; margin-top: 0; color: var(--grass-green);">策展人的话 · 刘懿彤</h3>
+      <p style="margin: 0;">
+        钟扬踏险远、探边界，用脚步丈量高原，以热爱奔赴使命。先锋之路从非坦途，这份坚守与求索，值得我们静心品读。愿我们都能学习探界者的精神，心怀热忱，勇敢奔赴自己的远方。
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== 第三展厅：林徽因【营造厅】 ==================== -->
+  <section class="hall-section" id="lin" data-theme="lin">
+    <div class="lin-banner">
+      <span class="hall-tag">时代脊梁线上博物馆 · 第三展厅</span>
+      <h1>营造厅 · 林徽因</h1>
+      <div class="lin-slogan">
+        “一身诗意千寻瀑，万古人间四月天。梁木构筑中华骨，巧思镌刻国徽光。”
+      </div>
+      <div class="curator-badge" style="border-color: var(--accent-lin); color: var(--accent-lin); background: rgba(224, 169, 109, 0.15);">策展人：刘懿彤</div>
+    </div>
+
+    <!-- 板块一：人物档案 -->
+    <div style="margin-top: 50px;">
+      <h3 style="font: 700 24px 'Noto Serif SC', serif; color: var(--accent-lin); margin-bottom: 20px;">板块一 · 人物档案</h3>
+      <div class="profile-card">
+        <p class="profile-main-text">
+          <strong>林徽因（1904—1955）</strong>，福建闽县（今福州）人，中国著名建筑学家、作家、诗人，中国第一位女性建筑学家。她与丈夫梁思成一道，用毕生心血投入到中国古建筑的考察、保护与研究中，开创了中国现代建筑史学。新中国成立后，她深度参与了中华人民共和国国徽和人民英雄纪念碑的设计工作，在极为艰难的病痛折磨下，依然为国家文化遗产保护与建筑事业燃尽了最后一丝热忱。
+        </p>
+
+        <div class="node-grid">
+          <div class="lin-node-card">
+            <div class="lin-node-year">1924—1927 年</div>
+            <div class="lin-node-desc">远赴宾夕法尼亚大学求学，因建筑系不招女生而注册于美术系，却修毕建筑系全部课程，以卓越才华破除性别偏见。</div>
+            <span class="lin-node-tag">求学·破壁</span>
+          </div>
+
+          <div class="lin-node-card">
+            <div class="lin-node-year">1930—1945 年</div>
+            <div class="lin-node-desc">加入中国营造学社，与梁思成骑驴漫行、克服重病，野外考察15个省、190多县，测绘记录2700余处古建筑，打破外国学者“中国已无唐代木构”的断言。</div>
+            <span class="lin-node-tag">野外测绘·梁木筑骨</span>
+          </div>
+
+          <div class="lin-node-card">
+            <div class="lin-node-year">1949—1950 年</div>
+            <div class="lin-node-desc">受聘为清华大学建筑系教授，主持并倾注全部病体精力设计中华人民共和国国徽图案，主导将国徽、齿轮、麦穗与天安门完美融合。</div>
+            <span class="lin-node-tag">国徽设计·国家象征</span>
+          </div>
+
+          <div class="lin-node-card">
+            <div class="lin-node-year">1952—1955 年</div>
+            <div class="lin-node-desc">抱病设计人民英雄纪念碑底座须弥座浮雕图案，拯救并恢复景泰蓝传统工艺；1955年4月1日在病痛中离世，年仅51岁。</div>
+            <span class="lin-node-tag">丰碑永驻·燃尽芳华</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 板块二：高光时刻 -->
+    <div>
+      <h3 style="font: 700 24px 'Noto Serif SC', serif; color: var(--accent-lin); margin-bottom: 20px;">板块二 · 高光时刻</h3>
+      <div class="highlight-container">
+        <div class="scene-card">
+          <div style="background: rgba(224,169,109,0.1); height: 220px; display: flex; align-items: center; justify-content: center; color: var(--accent-lin); font-family: serif; font-size: 20px; border-bottom: 1px solid var(--line);">
+            🏛️ 1937·山西五台山佛光寺
+          </div>
+          <div class="scene-body">
+            <h4 class="lin-scene-title">场景一：发现唐代木结构建筑——五台山佛光寺</h4>
+            <p class="scene-text">
+              1937年6月，林徽因与梁思成等人在山西五台山攀爬梯架，忍受蝠粪与恶臭，在佛光寺大殿梁架上发现唐代墨书题记，证实了这座建造于公元857年的唐代木构大殿的存在，向世界宣告中国大地依然完好保存着唐代木构建筑。
+            </p>
+            <div class="lin-scene-reason">
+              <strong>高光理由：</strong>以严谨学术与无畏毅力打破日本学者的断言，为中华建筑文明正名。
+            </div>
+          </div>
+        </div>
+
+        <div class="scene-card">
+          <div style="background: rgba(244,194,140,0.1); height: 220px; display: flex; align-items: center; justify-content: center; color: var(--rose-gold); font-family: serif; font-size: 20px; border-bottom: 1px solid var(--line);">
+            ✨ 病榻上的国徽设计案
+          </div>
+          <div class="scene-body">
+            <h4 class="lin-scene-title">场景二：肺病重笃下的国徽与纪念碑设计</h4>
+            <p class="scene-text">
+              新中国成立之初，林徽因已严重肺结核、体弱不堪。她强忍剧痛在病床上铺开图纸，研究历代汉镜、唐代玉璧与民族纹饰，将东方美学与新中国国家精神熔铸入国徽与人民英雄纪念碑的基座浮雕之中。
+            </p>
+            <div class="lin-scene-reason">
+              <strong>高光理由：</strong>用生命最后的余温，勾勒出新中国最庄严尊贵的文化图腾。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 板块三：精神密码 -->
+    <div style="margin-top: 50px;">
+      <h3 style="font: 700 24px 'Noto Serif SC', serif; color: var(--accent-lin); margin-bottom: 20px;">板块三 · 精神密码</h3>
+      <div class="spirit-tags">
+        <div class="lin-spirit-btn" onclick="activateSpirit(this)">学术报国，求真正名。</div>
+        <div class="lin-spirit-btn" onclick="activateSpirit(this)">不避艰险，野外坚守。</div>
+        <div class="lin-spirit-btn" onclick="activateSpirit(this)">匠心独运，融汇古今。</div>
+        <div class="lin-spirit-btn" onclick="activateSpirit(this)">病榻燃脂，奉献余热。</div>
+      </div>
+    </div>
+
+    <!-- 板块四：感动箴言 -->
+    <div style="margin-top: 50px;">
+      <h3 style="font: 700 24px 'Noto Serif SC', serif; color: var(--accent-lin); margin-bottom: 20px;">板块四 · 感动箴言</h3>
+      <div class="saying-list">
+        <div class="lin-saying-item">“无论病痛怎样折磨我，只要看到那些古建筑的图样，我的精神就又好起来了。”</div>
+        <div class="lin-saying-item">“中国建筑乃吾国数千年文化之结晶，不可任其湮没于岁月也。”</div>
+        <div class="lin-saying-item">“你们要是把北京城拆了，以后想建假的都建不起来了！”（对古城墙保护的呐喊）</div>
+        <div class="lin-saying-item">“你是人间的四月天，笑响点亮了四面风；轻灵在春的光艳中交舞着变。”</div>
+      </div>
+
+      <div class="award-box" style="border-color: var(--accent-lin); max-width: 800px; margin: 40px auto;">
+        <h3 style="color: var(--accent-lin); text-align: center;">致敬林徽因 · 铭词</h3>
+        <p style="font-size: 14px; line-height: 2.1;">
+          她是一树一树的花开，是人间的四月天；更是风雨飘摇中中国建筑史学的奠基者。颠沛流离里，她踩着风沙踏遍荒郊古刹，将千年梁木的筋骨镌入画卷；重病缠身时，她倾尽心血于病榻之上，将新中国的荣光凝于国徽与丰碑。才华卓越而不骄，坚韧果敢而不屈。她用诗意与匠心，在中华大地上筑起了一座永不坍塌的精神大厦。
+        </p>
+      </div>
+    </div>
+
+    <!-- 策展人的话 -->
+    <div class="lin-curator-note">
+      <h3 style="font: 700 20px 'Noto Serif SC', serif; margin-top: 0; color: var(--accent-lin);">策展人的话 · 刘懿彤</h3>
+      <p style="margin: 0;">
+        林徽因先生不仅有惊艳时光的文学诗意，更有报效家国的建筑骨气。她以女子之躯，行万里之险，修千古之业。营造厅愿带大家走近这位兼具诗意与钢骨的时代脊梁，感受中华文化守护者最纯粹的热爱。
+      </p>
+    </div>
+
+    <!-- 观众留言框 -->
+    <div class="comment-box">
+      <h3>观众留言区</h3>
+      <textarea class="comment-input" id="commentText" placeholder="写下你对袁隆平、钟扬、林徽因三位时代脊梁的感悟与敬意..."></textarea>
+      <button class="submit-btn" style="background: var(--accent-lin); color: #231b1b;" onclick="postComment()">发表留言</button>
+      <div class="comments-list" id="commentsList">
+        <div class="comment-card"><strong>观展同学：</strong> 禾下乘凉梦，种子达人情，营造古建心。致敬三位将毕生奉献给祖国和人民的时代脊梁！</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+// 页面滚动与主题切换逻辑
+const progressBar = document.getElementById('progressBar');
+const body = document.body;
+const sections = document.querySelectorAll('section.hall-section');
+
+window.addEventListener('scroll', () => {
+  const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = (window.scrollY / totalHeight) * 100;
+  progressBar.style.width = progress + '%';
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const theme = entry.target.dataset.theme;
+      body.setAttribute('data-theme', theme);
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(s => observer.observe(s));
+
+// 折叠展开 Accordion
+function toggleAccordion(header) {
+  const item = header.parentElement;
+  item.classList.toggle('open');
+}
+
+// 种植水稻互动
+function addRice(boxId) {
+  const box = document.getElementById(`sticker-box-${boxId}`);
+  const rice = document.createElement('span');
+  rice.textContent = '🌾';
+  box.appendChild(rice);
+}
+
+// 精神密码标签激活
+function activateSpirit(btn) {
+  btn.classList.toggle('active');
+}
+
+// 留言功能
+function postComment() {
+  const input = document.getElementById('commentText');
+  const list = document.getElementById('commentsList');
+  if (!input.value.trim()) return;
+  
+  const card = document.createElement('div');
+  card.className = 'comment-card';
+  card.innerHTML = `<strong>展厅访客：</strong> ${input.value}`;
+  list.prepend(card);
+  input.value = '';
+}
+</script>
+</body>
+</html>
