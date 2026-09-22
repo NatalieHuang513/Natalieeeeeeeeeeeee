@@ -1569,18 +1569,58 @@ body[data-theme="zhong"] .hall-tag {
     </section>
   </main>
 
-  <script>
-    // 1. 水稻贴纸功能
-    function addRice(boxId) {
-      const container = document.getElementById(`sticker-box-${boxId}`);
-      if (!container) return;
-
-      const sticker = document.createElement('span');
-      sticker.className = 'rice-sticker-item';
-      sticker.innerText = '🌾';
-
-      container.appendChild(sticker);
+<script>
+  // 使用 window.addRice 强制绑定到全局
+  window.addRice = function(boxId) {
+    console.log("正在尝试种水稻，传入的ID是:", boxId);
+    
+    var container = document.getElementById('sticker-box-' + boxId);
+    if (!container) {
+      alert("没找到容器：sticker-box-" + boxId + "，请检查 HTML 中的 id 是否正确！");
+      return;
     }
-  </script>
-   
 
+    var sticker = document.createElement('span');
+    sticker.className = 'rice-sticker-item';
+    sticker.innerText = '🌾';
+    sticker.style.fontSize = '24px';
+    sticker.style.display = 'inline-block';
+    sticker.style.margin = '0 2px';
+
+    container.appendChild(sticker);
+    console.log("水稻添加成功！");
+  };
+</script>
+
+    <!-- 板块四：折叠展开 -->
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>1. 实践出真知，稻浪载初心</span>
+          <span class="accordion-icon">＋</span>
+        </div>
+        <div class="accordion-content">
+          袁隆平的实践让他发现了真理：只要探索出其中规律，就一定能培育出人工杂交水稻，也就一定能把这种优势应用到生产上，从而大幅度提高水稻的产量。
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>2. 矢志不退却，立足华夏研稻</span>
+          <span class="accordion-icon">＋</span>
+        </div>
+        <div class="accordion-content">
+          袁隆平不打算退却，他很清楚他拥有的有利条件是其他国家科学家少有的：进行这项研究，中国有中国有利的条件，中国是古老的农业国...
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>3. 怀苍生之情，守稻田之愿</span>
+          <span class="accordion-icon">＋</span>
+        </div>
+        <div class="accordion-content">
+          他对中国亿万农民怀有深厚的感情，在国家杂交水稻工程技术研究中心的稻田中，他一边甩去手上的泥巴一边对我说，农民不富裕谈不到现代化，单产上不去农民就富不起来。
+        </div>
+      </div>
+    </div>
